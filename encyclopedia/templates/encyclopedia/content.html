@@ -1,0 +1,18 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block body %}
+
+<div class="mb-4">
+    {% if value != None %}
+    {{ value }}
+    {% else %}
+    Not Found
+    {% endif %}
+</div>
+<a href="{% url 'content' title 0 %}"><button class="btn btn-success" type="button">Edit</button></a>
+
+{% endblock %}

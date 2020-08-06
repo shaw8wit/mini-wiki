@@ -1,0 +1,26 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+Edit
+{% endblock %}
+
+{% block body %}
+
+<form class="ml-4" action="{% url 'add' update %}" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="mb-4">
+        <label for="{{ field.id_for_label }}">{{ field.html_name.capitalize }}:</label>
+        </br>
+        {% if field.html_name == "title" and update %}
+        {{ field.value }}
+        {{ field.as_hidden }}
+        {% else %}
+        {{ field }}
+        {% endif %}
+    </div>
+    {% endfor %}
+    <button class="btn btn-warning" type="submit">Submit</button>
+</form>
+
+{% endblock %}
