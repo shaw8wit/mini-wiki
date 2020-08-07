@@ -8,7 +8,7 @@
 
 <div class="mb-4">
     {% if value != None %}
-    {{ value }}
+    {{ value | safe }}
     {% else %}
     Not Found
     {% endif %}

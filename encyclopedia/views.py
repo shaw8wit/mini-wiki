@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+import markdown2
 import random as r
 
 from . import util
@@ -29,7 +29,7 @@ def content(request, title, view):
     body = util.get_entry(title)
     if view:
         return render(request, "encyclopedia/content.html", {
-            "value": body,
+            "value": markdown2.markdown(body),
             "title": title,
         })
     return render(request, "encyclopedia/edit.html", {
@@ -56,3 +56,14 @@ def add(request, update):
                 return render(request, "encyclopedia/error.html")
             util.save_entry(title, body)
     return HttpResponseRedirect(reverse("content", kwargs={'title': title, 'view': 1}))
+
+
+def search(request):
+    value = (request.POST).get("value")
+    l = util.list_entries()
+    if value in l:
+        return HttpResponseRedirect(
+            reverse("content", kwargs={'title': value, 'view': 1}))
+    return render(request, "encyclopedia/index.html", {
+        "entries": [i for i in l if value.lower() in i.lower()]
+    })
